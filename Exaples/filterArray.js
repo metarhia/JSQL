@@ -1,11 +1,11 @@
 // Define Data Source
 
 var data = [
-  { name: 'Marcus Aurelius', birth: new Date('212-04-26'), city: 'Rome' },
-  { name: 'Victor Glushkov', birth: new Date('1923-08-24'), city: 'Rostov on Don' },
-  { name: 'Ibn Arabi', birth: new Date('1165-11-16'), city: 'Murcia' },
-  { name: 'Mao Zedong', birth: new Date('1893-12-26'), city: 'Shaoshan' },
-  { name: 'Rene Descartes', birth: new Date('1596-03-31'), city: 'La Haye en Touraine' }
+  ['Marcus Aurelius','212-04-26','Rome'],
+  ['Victor Glushkov','1923-08-24','Rostov on Don'],
+  ['Ibn Arabi','1165-11-16','Murcia'],
+  ['Mao Zedong','1893-12-26','Shaoshan'],
+  ['Rene Descartes','1596-03-31','La Haye en Touraine']
 ];
 
 // Difine Person prototype with calculating field
@@ -13,10 +13,20 @@ var data = [
 function Person() {}
 
 Person.prototype = {
+  get name() {
+    return this[0];
+  },
+  get birth() {
+    console.log(new Date(this[1]));
+    return new Date(this[1]);
+  },
+  get city() {
+    return this[2];
+  },
   get age() {
     var difference = new Date() - this.birth;
     return Math.floor(difference / 31536000000);
-  }
+  },
 };
 
 // Define Query
