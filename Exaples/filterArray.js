@@ -8,26 +8,44 @@ var data = [
   ['Rene Descartes','1596-03-31','La Haye en Touraine']
 ];
 
-// Difine Person prototype with calculating field
+// Define Person prototype with calculating field
+
+var metadata = {
+  name: 'string',
+  birth: 'Date',
+  city: 'string',
+  age: function() {
+    var difference = new Date() - this.birth;
+    return Math.floor(difference / 31536000000);
+  }
+};
+
+// Build Prototype from Metadata
 
 function Person() {}
 
-Person.prototype = {
-  get name() {
-    return this[0];
-  },
-  get birth() {
-    console.log(new Date(this[1]));
-    return new Date(this[1]);
-  },
-  get city() {
-    return this[2];
-  },
-  get age() {
-    var difference = new Date() - this.birth;
-    return Math.floor(difference / 31536000000);
-  },
-};
+var index = 0;
+for (var name in metadata) {
+  buildGetter(Person.prototype, name, metadata[name], index++);
+}
+
+function buildGetter(proto, fieldName, fieldType, fieldIndex) {
+  if (fieldType === 'Date') {
+    Object.defineProperty(proto, fieldName, {
+      get: function() {
+        return new Date(this[fieldIndex]);
+      }
+    });
+  } else if (typeof(fieldType) === 'function') {
+    Object.defineProperty(proto, fieldName, { get: fieldType });
+  } else {
+    Object.defineProperty(proto, fieldName, {
+      get: function() {
+        return this[fieldIndex];
+      }
+    });
+  }
+}
 
 // Define Query
 
