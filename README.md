@@ -1,2 +1,1 @@
-# JSQL
-JavaScript Query Language
+# JSQL / JavaScript Query Language
