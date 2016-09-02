@@ -1,4 +1,4 @@
-let filterR = require('./filterRecords');
+let { data } = require('./filterRecords');
 
 function projection(fieldArr, excluding=false) {
   return this.map(obj => projectOne.call(obj, fieldArr, excluding));
@@ -22,9 +22,9 @@ function projectOne(fieldArr, excluding=false) {
   return Object.create(Object.getPrototypeOf(this), filteredProps);
 }
 
-console.log(projection.call(filterR, ['name', 'city']));
-console.log(projection.call(filterR, ['name', 'city'], true));
-console.log(projection.call(filterR, ['name'])[0].age);
-console.log(projection.call(filterR, ['name'], true)[0].age);
+console.log(projection.call(data, ['name', 'city']));
+console.log(projection.call(data, ['name', 'city'], true));
+console.log(projection.call(data, ['name'])[0].age);
+console.log(projection.call(data, ['name'], true)[0].age);
 
 module.exports = projection;

@@ -38,4 +38,7 @@ data.forEach((person) => {
 var res = data.filter(query);
 console.dir(res);
 
-module.exports = data;
+module.exports = {
+  data,
+  query
+};
