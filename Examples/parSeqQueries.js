@@ -1,11 +1,11 @@
 let { Projection, Filter, queryParSeq } = require('./lib'),
     { Monoid, ParSeqMonoid, parSeq } = require('./flib'),
-    filt = require('./filterArray');
+    { data } = require('./filterRecords');
 
 let inRomeFilter = Filter(person => person.city === 'Rome'),
-    inCreteFilter = Filter(person => person.city === 'Crete'),
-    nameProjection = Projection((metadata, proto) =>  ['name']), 
-    query =  [ [[ inRomeFilter, inCreteFilter ]], nameProjection ];
+    inMurciaFilter = Filter(person => person.city === 'Murcia'),
+    nameProjection = Projection(['name']), 
+    query = [ [[ inRomeFilter, inMurciaFilter ]], nameProjection ];
 
 let strParSeqMonoid = new ParSeqMonoid(
       new Monoid((x, y) => x + y, ''), 
@@ -28,6 +28,8 @@ console.log(strParSeq([
 let simpleQuery = [ 
   x => ({ x, y: 4 }), 
   [[ x => x.x, [x => x.y, x => x + 1] ]] 
-];
+]; 
+console.log(queryParSeq(simpleQuery)(6));
 
-console.log(queryParSeq(simpleQuery)([1,2,3]));
+let queryFunc = queryParSeq(query);
+console.log(queryFunc(data));
