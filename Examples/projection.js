@@ -14,15 +14,16 @@ function projectOne(fieldArr, excluding=false) {
   } else {
     filteredPropNames = fieldArr;
   }
-  let filteredProps = filteredPropNames.map(propName => 
-        [propName, Object.getOwnPropertyDescriptor(this, propName)]
-      ).reduce(putProperty, {});
+  let getProp = Object.getOwnPropertyDescriptor,
+      filteredProps = filteredPropNames
+                    .map(propName => [propName, getProp(this, propName)])
+                    .reduce(putProperty, {});
   return Object.create(Object.getPrototypeOf(this), filteredProps);
 }
 
 function putProperty(obj, [propName, prop]) {
-  this[propName] = prop;
-  return this;
+  obj[propName] = prop;
+  return obj;
 }
 
 console.log(projection.call(data, ['name', 'city']));
